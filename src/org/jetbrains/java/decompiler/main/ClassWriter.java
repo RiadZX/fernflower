@@ -222,6 +222,9 @@ public class ClassWriter {
 
       // methods
       for (StructMethod mt : cl.getMethods()) {
+        if(components!=null){ //IF THIS IS A RECORD, WE DO NOT WANT TO WRITE THE METHODS.
+          continue;
+        }
         boolean hide = mt.isSynthetic() && DecompilerContext.getOption(IFernflowerPreferences.REMOVE_SYNTHETIC) ||
                        mt.hasModifier(CodeConstants.ACC_BRIDGE) && DecompilerContext.getOption(IFernflowerPreferences.REMOVE_BRIDGE) ||
                        wrapper.getHiddenMembers().contains(InterpreterUtil.makeUniqueKey(mt.getName(), mt.getDescriptor()));
@@ -361,7 +364,7 @@ public class ClassWriter {
       }
       buffer.append("interface ");
     }
-    else if (components != null) {
+    else if (components != null) { //todo HERE WE KNOW IF THIS IS A RECORD OR NOT.
       buffer.append("record ");
     }
     else {

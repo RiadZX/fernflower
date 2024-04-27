@@ -273,6 +273,13 @@ public class SingleClassesTest {
     var decompiledFile = fixture.getTargetDir().resolve(classFile.getFileName().toString().replace(".class", ".java"));
     assertThat(decompiledFile).isRegularFile();
     assertTrue(Files.isRegularFile(decompiledFile));
+    //READ DECOMPILED FILE TO STRING
+    String decompiledFileContent = null;
+    try {
+      decompiledFileContent = Files.readString(decompiledFile);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
     var referenceFile = fixture.getTestDataDir().resolve("results/" + classFile.getFileName().toString().replace(".class", ".dec"));
     assertThat(referenceFile).isRegularFile();
     assertFilesEqual(referenceFile, decompiledFile);
